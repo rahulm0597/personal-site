@@ -1,0 +1,83 @@
+---
+title: "Mastering Tailwind CSS"
+date: "2026-05-15"
+description: "Tips and patterns for writing maintainable Tailwind CSS in a real project — beyond the basics."
+tags: ["tailwind", "css", "design"]
+---
+
+Tailwind is polarising until you internalize one thing: **utility classes are your API, not an implementation detail**. Once that clicks, everything else follows.
+
+## Composing with `cn`
+
+Install `clsx` and `tailwind-merge` together, then create a `cn` helper. This lets you safely merge conditional classes without specificity fights.
+
+```ts
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+Usage:
+
+```tsx
+<button className={cn(
+  "px-4 py-2 rounded-lg font-medium transition-colors",
+  variant === "primary" && "bg-indigo-600 text-white hover:bg-indigo-700",
+  variant === "ghost"   && "text-gray-600 hover:bg-gray-100",
+  disabled             && "opacity-50 cursor-not-allowed",
+)}>
+  Click me
+</button>
+```
+
+## Custom design tokens
+
+Extend `tailwind.config.ts` — don't fight the defaults, extend them.
+
+```ts
+export default {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        brand: {
+          50:  "#eef2ff",
+          500: "#6366f1",
+          900: "#312e81",
+        },
+      },
+    },
+  },
+};
+```
+
+## Responsive design the right way
+
+Tailwind is mobile-first. `sm:` means "at small screens and above", not "only on small screens". Unlearn whatever you knew from Bootstrap.
+
+```tsx
+<div className="
+  grid
+  grid-cols-1       /* mobile: 1 column */
+  sm:grid-cols-2    /* ≥640px: 2 columns */
+  lg:grid-cols-3    /* ≥1024px: 3 columns */
+  gap-6
+">
+```
+
+## Dark mode with class strategy
+
+Add `darkMode: "class"` to your config and write `dark:` variants. The `dark` class on `<html>` activates them.
+
+```tsx
+<div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  Content that adapts
+</div>
+```
+
+Tailwind generates the selectors for you — no media queries needed in your JSX.

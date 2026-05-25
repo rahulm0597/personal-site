@@ -1,0 +1,68 @@
+---
+title: "Getting Started with Next.js 14"
+date: "2026-05-20"
+description: "A practical intro to the App Router, Server Components, and file-based routing in Next.js 14."
+tags: ["next.js", "react", "typescript"]
+---
+
+Next.js 14 ships with the App Router as the default — a fundamentally different mental model from the Pages Router. Here's what you need to know to get productive fast.
+
+## File-based routing
+
+Every `page.tsx` inside `app/` becomes a route. Folders define URL segments.
+
+```
+app/
+  page.tsx          → /
+  blog/
+    page.tsx        → /blog
+    [slug]/
+      page.tsx      → /blog/:slug
+```
+
+## Server Components by default
+
+Every component in the App Router is a **React Server Component** (RSC) unless you opt out with `"use client"`. This means zero client JS by default.
+
+```tsx
+// This runs only on the server — no bundle cost
+export default async function Page() {
+  const data = await fetch("https://api.example.com/posts").then((r) => r.json());
+  return <ul>{data.map((p) => <li key={p.id}>{p.title}</li>)}</ul>;
+}
+```
+
+## Fetching data
+
+Async/await works directly in server components. Next.js extends `fetch` with built-in caching.
+
+```tsx
+// Cache this fetch for 60 seconds
+const res = await fetch("https://api.example.com/posts", {
+  next: { revalidate: 60 },
+});
+```
+
+## Generating static pages from dynamic routes
+
+Use `generateStaticParams` to pre-render dynamic segments at build time.
+
+```tsx
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ slug: post.slug }));
+}
+```
+
+## Metadata
+
+Export a `metadata` object or a `generateMetadata` function for `<head>` tags.
+
+```tsx
+export async function generateMetadata({ params }) {
+  const post = await getPost(params.slug);
+  return { title: post.title, description: post.description };
+}
+```
+
+That covers the core primitives. The App Router rewards you for thinking in terms of server vs. client boundaries rather than pages vs. components.

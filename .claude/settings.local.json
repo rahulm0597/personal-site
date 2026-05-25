@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(npm run *)",
+      "Read(//private/tmp/**)",
+      "Bash(curl -s http://localhost:3000/blog)",
+      "Bash(curl -s http://localhost:3000/blog/building-with-mdx)",
+      "Bash(grep -oP 'style=\"[^\"]{0,200}\"')",
+      "Bash(grep -oP 'style=\"[^\"]{0,300}\"')",
+      "Bash(node -e \"require\\('./node_modules/resend'\\)\")",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(curl -s http://localhost:3000/contact)",
+      "Bash(vercel whoami *)",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  }
+}

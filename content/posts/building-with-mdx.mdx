@@ -1,0 +1,93 @@
+---
+title: "Building a Blog with MDX"
+date: "2026-05-25"
+description: "How this very blog works — MDX parsing, frontmatter, syntax highlighting, and the lib/mdx.ts utility."
+tags: ["mdx", "next.js", "blog"]
+---
+
+MDX lets you write Markdown and embed React components. This blog uses it with three moving parts: a utility to read files, a list page, and a dynamic slug page.
+
+## The file structure
+
+```
+content/
+  posts/
+    my-post.mdx
+src/
+  lib/
+    mdx.ts          ← reads files, parses frontmatter
+  app/
+    blog/
+      page.tsx      ← lists all posts
+      [slug]/
+        page.tsx    ← renders a single post
+```
+
+## Parsing frontmatter with gray-matter
+
+Every `.mdx` file starts with a YAML block called frontmatter:
+
+```mdx
+---
+title: "My Post"
+date: "2026-05-25"
+description: "What this post is about"
+tags: ["nextjs", "mdx"]
+---
+
+Your content goes here.
+```
+
+`gray-matter` splits this into `data` (the metadata) and `content` (the body).
+
+```ts
+import matter from "gray-matter";
+import fs from "fs";
+
+const raw = fs.readFileSync("post.mdx", "utf-8");
+const { data, content } = matter(raw);
+// data  → { title, date, description, tags }
+// content → the markdown string
+```
+
+## Sorting posts by date
+
+The `getAllPostsMeta` utility reads every `.mdx` file and sorts newest-first:
+
+```ts
+export function getAllPostsMeta(): PostMeta[] {
+  return files
+    .map((filename) => parseFile(filename))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+```
+
+## Rendering with next-mdx-remote
+
+The RSC-compatible import processes MDX directly on the server — no client JS needed.
+
+```tsx
+import { MDXRemote } from "next-mdx-remote/rsc";
+import rehypePrettyCode from "rehype-pretty-code";
+
+<MDXRemote
+  source={post.content}
+  options={{
+    mdxOptions: {
+      rehypePlugins: [[rehypePrettyCode, { themes: { light: "github-light", dark: "github-dark" } }]],
+    },
+  }}
+/>
+```
+
+## Syntax highlighting
+
+`rehype-pretty-code` wraps `shiki` and generates `data-theme` attributes on each `<pre>`. CSS then shows/hides the correct variant based on the `.dark` class on `<html>`:
+
+```css
+pre[data-theme="dark"] { display: none; }
+.dark pre[data-theme="light"] { display: none; }
+.dark pre[data-theme="dark"]  { display: block; }
+```
+
+The result: zero-JS theme switching, instant on toggle.

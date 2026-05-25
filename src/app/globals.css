@@ -7,21 +7,67 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* ── Syntax highlighting (rehype-pretty-code 0.14, CSS-variables strategy) ── */
+
+/* Code block shell */
+[data-rehype-pretty-code-figure] pre {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+/* Light mode: read --shiki-light variables */
+pre[data-theme],
+pre[data-theme] span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+/* Dark mode: read --shiki-dark variables */
+.dark pre[data-theme],
+.dark pre[data-theme] span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+/* Inline code */
+:not(pre) > code {
+  font-size: 0.85em;
+  padding: 0.15em 0.35em;
+  border-radius: 0.25rem;
+  background-color: rgb(243 244 246);
+  color: rgb(79 70 229);
+}
+.dark :not(pre) > code {
+  background-color: rgb(31 41 55);
+  color: rgb(165 180 252);
+}
+
+/* Highlighted line */
+[data-highlighted-line] {
+  background-color: rgb(99 102 241 / 0.1);
+  border-left: 2px solid rgb(99 102 241);
+  padding-left: calc(1.5rem - 2px);
+  margin-left: -1.5rem;
+  padding-right: 1.5rem;
+  margin-right: -1.5rem;
 }
