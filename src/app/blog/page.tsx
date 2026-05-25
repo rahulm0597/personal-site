@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getAllPostsMeta } from "@/lib/mdx";
 
 export const metadata = {
-  title: "Blog — MyBrand",
+  title: "Blog — Rahul Maurya",
   description: "Writing on Next.js, Tailwind, and building for the web.",
 };
 

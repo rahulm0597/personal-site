@@ -20,7 +20,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 font-bold text-xl text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
             <span className="inline-block w-8 h-8 bg-indigo-600 rounded-lg" aria-hidden="true" />
-            MyBrand
+            Rahul Maurya
           </Link>
 
           {/* Desktop nav */}

@@ -7,7 +7,7 @@ export default function Home() {
       <section className="text-center">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
           Hi, I&apos;m{" "}
-          <span className="text-indigo-600">Your Name</span>
+          <span className="text-indigo-600">Rahul Maurya</span>
         </h1>
         <p className="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
           I build things for the web. This is my personal site — a place for my

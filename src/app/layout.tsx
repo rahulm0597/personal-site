@@ -18,8 +18,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "MyBrand",
-  description: "Personal site built with Next.js and Tailwind CSS",
+  title: "Rahul Maurya",
+  description: "Personal site of Rahul Maurya — Product Manager.",
 };
 
 export default function RootLayout({

@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm">
-            &copy; {year} MyBrand. All rights reserved.
+            &copy; {year} Rahul Maurya. All rights reserved.
           </p>
           <nav className="flex gap-6 text-sm" aria-label="Footer navigation">
             <Link href="/" className="hover:text-white transition-colors">Home</Link>
