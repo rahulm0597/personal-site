@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import rehypePrettyCode from "rehype-pretty-code";
+import rehypePrettyCode, { type Options } from "rehype-pretty-code";
 import { getAllSlugs, getPost } from "@/lib/mdx";
 import Link from "next/link";
 
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
   }
 }
 
-const prettyCodeOptions = {
+const prettyCodeOptions: Options = {
   theme: {
     light: "github-light",
     dark: "github-dark",
@@ -81,7 +81,7 @@ export default function PostPage({ params }: Props) {
           source={post.content}
           options={{
             mdxOptions: {
-              rehypePlugins: [[rehypePrettyCode as any, prettyCodeOptions]],
+              rehypePlugins: [[rehypePrettyCode, prettyCodeOptions]],
             },
           }}
         />
