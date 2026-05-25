@@ -20,7 +20,10 @@
       "Bash(git remote *)",
       "Bash(git push *)",
       "Bash(ssh -T git@github.com)",
-      "Bash(gh auth *)"
+      "Bash(gh auth *)",
+      "Bash(npm i *)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(vercel *)"
     ]
   }
 }

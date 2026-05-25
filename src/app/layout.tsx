@@ -18,9 +18,36 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+const baseUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
 export const metadata: Metadata = {
-  title: "Rahul Maurya",
-  description: "Personal site of Rahul Maurya — Product Manager.",
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: "Rahul Maurya",
+    template: "%s — Rahul Maurya",
+  },
+  description:
+    "Rahul Maurya — Product Manager. Building products people love.",
+  authors: [{ name: "Rahul Maurya" }],
+  creator: "Rahul Maurya",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: baseUrl,
+    siteName: "Rahul Maurya",
+    title: "Rahul Maurya",
+    description: "Rahul Maurya — Product Manager. Building products people love.",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Rahul Maurya" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rahul Maurya",
+    description: "Rahul Maurya — Product Manager. Building products people love.",
+    images: ["/opengraph-image"],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

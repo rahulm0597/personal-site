@@ -13,7 +13,23 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props) {
   try {
     const post = getPost(params.slug);
-    return { title: `${post.title} — MyBrand`, description: post.description };
+    return {
+      title: post.title,
+      description: post.description,
+      openGraph: {
+        type: "article",
+        title: post.title,
+        description: post.description,
+        publishedTime: post.date,
+        authors: ["Rahul Maurya"],
+        tags: post.tags,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: post.title,
+        description: post.description,
+      },
+    };
   } catch {
     return {};
   }
